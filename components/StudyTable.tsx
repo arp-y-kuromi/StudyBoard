@@ -1,15 +1,8 @@
 import Link from "next/link";
-
-type Member = {
-  id: string;
-  position: string;
-  name: string;
-  progress: number;
-  commits: number;
-};
+import { Member } from "@/lib/sheets";
 
 const rankLabel = (i: number) =>
-  i === 0 ? null : ["", "2nd", "3rd", "4th"][i] ?? `${i + 1}th`;
+  i === 0 ? null : (["", "2nd", "3rd", "4th"][i] ?? `${i + 1}th`);
 
 const barColor = (p: number) => {
   if (p === 100) return "bg-green-600";
@@ -28,7 +21,7 @@ const pctColor = (p: number) => {
 export default function StudyTable({ members }: { members: Member[] }) {
   const sorted = [...members].sort((a, b) => b.progress - a.progress);
   const avg = Math.round(
-    members.reduce((s, m) => s + m.progress, 0) / members.length
+    members.reduce((s, m) => s + m.progress, 0) / members.length,
   );
   const total = members.reduce((s, m) => s + m.commits, 0);
 
@@ -117,14 +110,14 @@ export default function StudyTable({ members }: { members: Member[] }) {
                     <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full ${barColor(
-                          m.progress
+                          m.progress,
                         )}`}
                         style={{ width: `${m.progress}%` }}
                       />
                     </div>
                     <span
                       className={`text-xs font-mono font-medium w-10 text-right ${pctColor(
-                        m.progress
+                        m.progress,
                       )}`}
                     >
                       {m.progress}%
@@ -136,8 +129,8 @@ export default function StudyTable({ members }: { members: Member[] }) {
                     m.commits >= 50
                       ? "text-green-600 font-medium"
                       : m.commits > 0
-                      ? "text-gray-500"
-                      : "text-gray-200"
+                        ? "text-gray-500"
+                        : "text-gray-200"
                   }`}
                 >
                   {m.commits}
