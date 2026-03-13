@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const members = [
+export const members = [
   { id: 1, position: "エンジニア", name: "handa", progress: 100, commits: 100 },
   {
     id: 2,
