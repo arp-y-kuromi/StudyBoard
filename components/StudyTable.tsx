@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const members = [
   { id: 1, position: "エンジニア", name: "handa", progress: 100, commits: 100 },
   {
@@ -13,12 +15,12 @@ const members = [
 
 const sorted = [...members].sort((a, b) => b.progress - a.progress);
 const avg = Math.round(
-  members.reduce((s, m) => s + m.progress, 0) / members.length,
+  members.reduce((s, m) => s + m.progress, 0) / members.length
 );
 const total = members.reduce((s, m) => s + m.commits, 0);
 
 const rankLabel = (i: number) =>
-  i === 0 ? null : (["", "2nd", "3rd", "4th"][i] ?? `${i + 1}th`);
+  i === 0 ? null : ["", "2nd", "3rd", "4th"][i] ?? `${i + 1}th`;
 
 const barColor = (p: number) => {
   if (p === 100) return "bg-green-600";
@@ -60,7 +62,9 @@ export default function StudyTable() {
               {s.label}
             </p>
             <p
-              className={`text-xl font-bold ${s.accent ? "text-blue-600" : "text-gray-900"}`}
+              className={`text-xl font-bold ${
+                s.accent ? "text-blue-600" : "text-gray-900"
+              }`}
             >
               {s.val}
             </p>
@@ -76,7 +80,9 @@ export default function StudyTable() {
               {["position", "name", "progress", "commits"].map((h, i) => (
                 <th
                   key={h}
-                  className={`text-[11px] font-mono font-normal text-gray-300 px-4 py-3 ${i >= 2 ? "text-right" : "text-left"}`}
+                  className={`text-[11px] font-mono font-normal text-gray-300 px-4 py-3 ${
+                    i >= 2 ? "text-right" : "text-left"
+                  }`}
                 >
                   {h}
                 </th>
@@ -95,8 +101,11 @@ export default function StudyTable() {
                   </span>
                 </td>
                 <td className="px-4 py-4">
-                  <div
-                    className={`text-sm font-semibold flex items-center gap-1.5 ${i === 0 ? "text-amber-700" : "text-gray-800"}`}
+                  <Link
+                    href={`/${m.name}`}
+                    className={`text-sm font-semibold flex items-center gap-1.5 hover:opacity-70 transition-opacity ${
+                      i === 0 ? "text-amber-700" : "text-gray-800"
+                    }`}
                   >
                     {i === 0 ? (
                       <span className="text-base">👑</span>
@@ -106,25 +115,35 @@ export default function StudyTable() {
                       </span>
                     )}
                     {m.name}
-                  </div>
+                  </Link>
                 </td>
                 <td className="px-4 py-4">
                   <div className="flex items-center gap-2 justify-end">
                     <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full ${barColor(m.progress)}`}
+                        className={`h-full rounded-full ${barColor(
+                          m.progress
+                        )}`}
                         style={{ width: `${m.progress}%` }}
                       />
                     </div>
                     <span
-                      className={`text-xs font-mono font-medium w-10 text-right ${pctColor(m.progress)}`}
+                      className={`text-xs font-mono font-medium w-10 text-right ${pctColor(
+                        m.progress
+                      )}`}
                     >
                       {m.progress}%
                     </span>
                   </div>
                 </td>
                 <td
-                  className={`px-4 py-4 text-right text-xs font-mono ${m.commits >= 50 ? "text-green-600 font-medium" : m.commits > 0 ? "text-gray-500" : "text-gray-200"}`}
+                  className={`px-4 py-4 text-right text-xs font-mono ${
+                    m.commits >= 50
+                      ? "text-green-600 font-medium"
+                      : m.commits > 0
+                      ? "text-gray-500"
+                      : "text-gray-200"
+                  }`}
                 >
                   {m.commits}
                 </td>
