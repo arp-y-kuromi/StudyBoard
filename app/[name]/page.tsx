@@ -1,4 +1,5 @@
 import { getMembers } from "@/lib/sheets";
+import ProgressBadge from "./badge";
 
 export default async function Detail({
   params,
@@ -26,35 +27,41 @@ export default async function Detail({
 
   return (
     <div className="min-h-screen bg-[#f8f9fb] p-8">
-      <div className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-2xl p-8">
-        <p className="text-[11px] text-gray-400 font-mono mb-2 tracking-widest">
-          MEMBER DETAIL
-        </p>
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white border border-gray-200 rounded-2xl p-8">
+          <p className="text-[11px] text-gray-400 font-mono mb-2 tracking-widest">
+            MEMBER DETAIL
+          </p>
 
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">{member.name}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-6">
+            {member.name}
+          </h1>
 
-        <div className="space-y-4">
-          <div>
-            <p className="text-xs font-mono text-gray-400 mb-1">POSITION</p>
-            <p className="text-base font-semibold text-gray-800">
-              {member.position}
-            </p>
-          </div>
+          <div className="space-y-4">
+            <div>
+              <p className="text-xs font-mono text-gray-400 mb-1">POSITION</p>
+              <p className="text-base font-semibold text-gray-800">
+                {member.position}
+              </p>
+            </div>
 
-          <div>
-            <p className="text-xs font-mono text-gray-400 mb-1">PROGRESS</p>
-            <p className="text-base font-semibold text-gray-800">
-              {member.progress}%
-            </p>
-          </div>
+            <div>
+              <p className="text-xs font-mono text-gray-400 mb-1">PROGRESS</p>
+              <p className="text-base font-semibold text-gray-800">
+                {member.progress}%
+              </p>
+            </div>
 
-          <div>
-            <p className="text-xs font-mono text-gray-400 mb-1">COMMITS</p>
-            <p className="text-base font-semibold text-gray-800">
-              {member.commits}
-            </p>
+            <div>
+              <p className="text-xs font-mono text-gray-400 mb-1">COMMITS</p>
+              <p className="text-base font-semibold text-gray-800">
+                {member.commits}
+              </p>
+            </div>
           </div>
         </div>
+
+        <ProgressBadge progress={member.progress} />
       </div>
     </div>
   );
