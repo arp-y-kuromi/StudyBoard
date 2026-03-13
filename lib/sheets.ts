@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { getCommitCount } from "./github";
 
 export async function getMembers() {
   const auth = new google.auth.JWT({
@@ -11,16 +12,24 @@ export async function getMembers() {
 
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: "Sheet1!A2:D100",
+    range: "Sheet1!A2:E100",
   });
 
   const rows = res.data.values ?? [];
 
-  return rows.map((row, i) => ({
-    id: String(i),
-    position: row[0] ?? "",
-    name: row[1] ?? "",
-    progress: Number(row[2]) || 0,
-    commits: Number(row[3]) || 0,
-  }));
+  const members = await Promise.all(
+    rows.map(async (row, i) => {
+      const githubUsername = row[4] ?? "";
+      const commits = githubUsername ? await getCommitCount(githubUsername) : 0;
+      return {
+        id: String(i),
+        position: row[0] ?? "",
+        name: row[1] ?? "",
+        progress: Number(row[2]) || 0,
+        commits,
+      };
+    }),
+  );
+
+  return members;
 }
