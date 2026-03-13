@@ -1,10 +1,7 @@
+import { getMembers } from "@/lib/notion";
 import StudyTable from "@/components/StudyTable";
 
-export default function Home() {
-  return (
-    <main>
-      <h1>スタディーボード</h1>
-      <StudyTable />
-    </main>
-  );
+export default async function Home() {
+  const members = await getMembers();
+  return <StudyTable members={members} />;
 }
