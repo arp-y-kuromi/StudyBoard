@@ -1,23 +1,12 @@
 import Link from "next/link";
 
-export const members = [
-  { id: 1, position: "エンジニア", name: "handa", progress: 100, commits: 100 },
-  {
-    id: 2,
-    position: "エンジニア",
-    name: "sakurada",
-    progress: 50,
-    commits: 50,
-  },
-  { id: 3, position: "エンジニア", name: "kuromi", progress: 10, commits: 1 },
-  { id: 4, position: "エンジニア", name: "takahashi", progress: 0, commits: 0 },
-];
-
-const sorted = [...members].sort((a, b) => b.progress - a.progress);
-const avg = Math.round(
-  members.reduce((s, m) => s + m.progress, 0) / members.length
-);
-const total = members.reduce((s, m) => s + m.commits, 0);
+type Member = {
+  id: string;
+  position: string;
+  name: string;
+  progress: number;
+  commits: number;
+};
 
 const rankLabel = (i: number) =>
   i === 0 ? null : ["", "2nd", "3rd", "4th"][i] ?? `${i + 1}th`;
@@ -36,7 +25,13 @@ const pctColor = (p: number) => {
   return "text-gray-300";
 };
 
-export default function StudyTable() {
+export default function StudyTable({ members }: { members: Member[] }) {
+  const sorted = [...members].sort((a, b) => b.progress - a.progress);
+  const avg = Math.round(
+    members.reduce((s, m) => s + m.progress, 0) / members.length
+  );
+  const total = members.reduce((s, m) => s + m.commits, 0);
+
   return (
     <div className="bg-[#f8f9fb] min-h-screen p-8 font-sans">
       {/* ヘッダー */}

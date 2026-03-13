@@ -1,4 +1,4 @@
-import { members } from "@/components/StudyTable";
+import { getMembers } from "@/lib/sheets";
 
 export default async function Detail({
   params,
@@ -6,6 +6,7 @@ export default async function Detail({
   params: Promise<{ name: string }>;
 }) {
   const { name } = await params;
+  const members = await getMembers();
   const member = members.find((m) => m.name === name);
 
   if (!member) {
